@@ -23,7 +23,7 @@ const Search = () => {
 
     try {
       const response = await fetch(
-        `https://video-assessment.onrender.com/api/search/?title=${title}&order=${order}`
+        `${process.env.REACT_APP_API_URL}/api/search/?title=${title}&order=${order}`
       );
       const data = await response.json();
       if (!response.ok) {

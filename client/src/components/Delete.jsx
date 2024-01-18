@@ -10,7 +10,7 @@ const Delete = ({ id }) => {
     event.preventDefault();
     try {
       const response = await fetch(
-        `https://video-assessment.onrender.com/api/${id}`,
+        `${process.env.REACT_APP_API_URL}/api/${id}`,
         {
           method: "DELETE",
           headers: {

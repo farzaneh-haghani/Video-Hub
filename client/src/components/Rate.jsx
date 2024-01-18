@@ -13,16 +13,13 @@ const Rate = ({ id, rating }) => {
     setRate(newRate);
 
     try {
-      const response = fetch(
-        `https://video-assessment.onrender.com/api/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ newRate }),
-        }
-      );
+      const response = fetch(`${process.env.REACT_APP_API_URL}/api/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ newRate }),
+      });
       const data = await response.json();
       if (!response.ok) {
         alert(data.message);

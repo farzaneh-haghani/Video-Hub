@@ -41,7 +41,7 @@ const Add = () => {
       } else {
         try {
           const response = await fetch(
-            "https://video-assessment.onrender.com/api/",
+            `${process.env.REACT_APP_API_URL}/api/`,
             {
               method: "POST",
               headers: {

@@ -104,7 +104,6 @@ Video Hub is a platform where users can share their favorite YouTube videos, all
       npm run dev
   ```
 
-  7. Open the Application
-     Open your browser and visit http://localhost:3000 in your browser to view the app and access the Video Hub.
+  7. Open your browser and visit http://localhost:3000 in your browser to view the app and access the Video Hub.
 
 Happy video sharing!

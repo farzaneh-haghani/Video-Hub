@@ -19,7 +19,7 @@ const Home = () => {
 
   useEffect(() => {
     const order = !isDirecting ? "desc" : "asc";
-    fetch(`https://video-assessment.onrender.com/api/?order=${order}`)
+    fetch(`${process.env.REACT_APP_API_URL}/api/?order=${order}`)
       .then((res) => res.json())
       .then((data) => {
         setIsLoading(true);
