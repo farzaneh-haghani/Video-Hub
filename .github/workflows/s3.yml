@@ -12,6 +12,9 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: production
+    env:
+      REACT_APP_API_URL: ${{ vars.REACT_APP_API_URL }}
 
     steps:
       - uses: actions/checkout@v4
@@ -25,18 +28,24 @@ jobs:
       - name: Checking version
         run: node --version
 
-        env:
-          REACT_APP_API_URL: http://ec2-18-206-154-3.compute-1.amazonaws.com:5000
+      - name: Test env
+        run: echo "$REACT_APP_API_URL"
 
       - name: create build
         run: npm run build
 
-      - name: AWS credentials
+      - name: Save AWS Credentials
+        run: |
+          echo "AWS_ACCESS_KEY_ID=${{ secrets.ACCESS_KEY }}" >> "$GITHUB_ENV"
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.SECRET_ACCESS_KEY }}" >> "$GITHUB_ENV"
+          echo "AWS_REGION=us-east-1" >>  "$GITHUB_ENV"
+
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{secrets.ACCESS_KEY}}
-          aws-secret-access-key: ${{secrets.SECRET_ACCESS_KEY}}
-          aws-region: us-east-1
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Upload to S3
         run: aws s3 sync ./build s3://cyf-video-hub --delete
