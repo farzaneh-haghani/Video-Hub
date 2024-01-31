@@ -27,7 +27,14 @@ const Home = () => {
         setIsSearching(false);
       })
       .catch((err) => console.error(err));
-  }, [isDeleting, isRating, isDirecting]);
+  }, [
+    isDeleting,
+    isRating,
+    isDirecting,
+    setIsLoading,
+    setIsSearching,
+    setVideos,
+  ]);
 
   return (
     <Box

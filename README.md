@@ -74,8 +74,7 @@ Video Hub is a platform where users can share their favorite YouTube videos, all
 
   ```sh
         psql video_hub
-        cd server
-        \include videos.sql
+        \include server/videos.sql
   ```
 
   4. Create a `.env` file in the server of the project:
