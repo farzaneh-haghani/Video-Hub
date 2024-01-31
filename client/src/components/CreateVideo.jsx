@@ -28,6 +28,7 @@ const CreateVideo = (props) => {
         <Iframe
           url={`https://www.youtube.com/embed/${url.split("=")[1]}`}
           width="370px"
+          height="200px"
           title={title}
           allow="accelerometer; autoplay; clipboard-write;
             encrypted-media; gyroscope; picture-in-picture"
@@ -41,7 +42,12 @@ const CreateVideo = (props) => {
           </Typography>
         </CardContent>
 
-        <CardActions>
+        <CardActions
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <Rate rating={rating} id={id} />
           <Delete id={id} />
         </CardActions>
