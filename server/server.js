@@ -9,6 +9,9 @@ app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
 
+app.get("/", (_, res) => {
+  res.status(200).json("Video Hub");
+});
 
 app.use("/api", videoRouter);
 

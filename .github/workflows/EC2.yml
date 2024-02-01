@@ -25,11 +25,13 @@ jobs:
           echo "${{secrets.MY_PRIVATE_KEY}}" > ~/.ssh/video-key.pem
           chmod 400 ~/.ssh/video-key.pem
 
-      - name: SSH to EC2
+      - name: SSH to EC2 && Pull && Install New Dependencies && Restart
         run: |
-          ssh -i "~/.ssh/video-key.pem" -o StrictHostKeyChecking=no ec2-user@ec2-18-206-154-3.compute-1.amazonaws.com << EOF 
+          ssh -i "~/.ssh/video-key.pem" -o StrictHostKeyChecking=no ec2-user@ec2-18-206-154-3.compute-1.amazonaws.com << EOF
             sudo yum update
             sudo su -
             cd Video-Hub/server
-            git pull      
+            git pull
+            npm install
+            pm2 restart all
           EOF

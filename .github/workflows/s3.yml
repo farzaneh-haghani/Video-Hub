@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "client/**"
 
 defaults:
   run:
@@ -31,7 +33,7 @@ jobs:
       - name: Test env
         run: echo "$REACT_APP_API_URL"
 
-      - name: create build
+      - name: Create build
         run: npm run build
 
       - name: Save AWS Credentials
