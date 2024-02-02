@@ -10,7 +10,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get("/", (_, res) => {
-  res.status(200).json("Video Hub");
+  res.status(200).json("Hello World from Video Hub");
 });
 
 app.use("/api", videoRouter);

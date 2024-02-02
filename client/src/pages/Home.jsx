@@ -39,7 +39,7 @@ const Home = () => {
   return (
     <Box
       paddingX={{ xs: 2, sm: 5, md: 10, xl: 20 }}
-      paddingTop={{ xs: 35, md: 20 }}
+      paddingTop={{ xs: 35, md: 25 }}
       sx={{ pb: 10 }}
     >
       {!isLoading && (
