@@ -8,4 +8,4 @@ FROM node:20-alpine
 WORKDIR /app
 COPY --from=Dependencies ./app ./
 EXPOSE 5000
-CMD ["npm","run","dev"]
+CMD ["node","server.js"]

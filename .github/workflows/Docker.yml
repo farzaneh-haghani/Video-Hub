@@ -27,7 +27,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Tag my image to another name
+      - name: Tag my image
         run: docker tag video-hub-server ${{ secrets.DOCKERHUB_USERNAME }}/video-hub-server
 
       - name: Push to Docker Hub
@@ -38,6 +38,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
+
       - name: Create Private Key
         run: |
           mkdir ~/.ssh/
@@ -47,5 +49,11 @@ jobs:
       - name: SSH to EC2 && Run the Docker Image
         run: |
           ssh -i "~/.ssh/video-key.pem" -o StrictHostKeyChecking=no ec2-user@ec2-18-206-154-3.compute-1.amazonaws.com << EOF
-            docker run -dp 0.0.0.0:5000:5000 ${{ secrets.DOCKERHUB_USERNAME }}/video-hub-server
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/video-hub-server  
+            if docker ps | grep -q video_hub_container; then
+              docker restart video_hub_container
+            else
+              echo "URL_DB=${{ secrets.URL_DB }}" > .env
+              docker run -dp 5001:5000 --env-file .env --name video_hub_container ${{ secrets.DOCKERHUB_USERNAME }}/video-hub-server
+            fi
           EOF
