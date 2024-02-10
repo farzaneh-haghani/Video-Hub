@@ -1,0 +1,34 @@
+name: Deploy on AWS EC2
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "server/**"
+
+defaults:
+  run:
+    working-directory: "server"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build an Image from Server
+        run: docker build -t video-hub-server .
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Tag my image to another name
+        run: docker tag video-hub-server ${{ secrets.DOCKERHUB_USERNAME }}/video-hub-server
+
+      - name: Push to Docker Hub
+        run: docker push ${{secrets.DOCKERHUB_USERNAME}}/video-hub-server
