@@ -12,7 +12,7 @@ defaults:
     working-directory: "server"
 
 jobs:
-  build:
+  build_and_push:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,3 +32,20 @@ jobs:
 
       - name: Push to Docker Hub
         run: docker push ${{secrets.DOCKERHUB_USERNAME}}/video-hub-server
+
+  deploy:
+    needs: build_and_push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create Private Key
+        run: |
+          mkdir ~/.ssh/
+          echo "${{secrets.MY_PRIVATE_KEY}}" > ~/.ssh/video-key.pem
+          chmod 400 ~/.ssh/video-key.pem
+
+      - name: SSH to EC2 && Run the Docker Image
+        run: |
+          ssh -i "~/.ssh/video-key.pem" -o StrictHostKeyChecking=no ec2-user@ec2-18-206-154-3.compute-1.amazonaws.com << EOF
+            docker run -dp 0.0.0.0:5000:5000 ${{ secrets.DOCKERHUB_USERNAME }}/video-hub-server
+          EOF
